@@ -1,6 +1,14 @@
-﻿namespace OMS_Backend.Data
+﻿using Microsoft.EntityFrameworkCore;
+using OMS_Backend.Entities;
+
+namespace OMS_Backend.Data
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
     }
 }

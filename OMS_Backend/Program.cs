@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using OMS_Backend.Data;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -8,11 +11,27 @@ internal class Program
 
         builder.Services.AddControllers();
 
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
+
+        builder.Services.AddCors(options =>
+        {
+             options.AddPolicy("AllowAll",
+             builder =>
+             {
+                 builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+             });
+        });
+
+        app.UseCors("AllowAngular");
 
         // Configure the HTTP request pipeline.
 
