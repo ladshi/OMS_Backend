@@ -1,17 +1,33 @@
-var builder = WebApplication.CreateBuilder(args);
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+        // Add services to the container.
 
-builder.Services.AddControllers();
+        builder.Services.AddControllers();
 
-var app = builder.Build();
+        builder.Services.AddEndpointsApiExplorer();
 
-// Configure the HTTP request pipeline.
+        builder.Services.AddSwaggerGen();
 
-app.UseHttpsRedirection();
+        var app = builder.Build();
 
-app.UseAuthorization();
+        // Configure the HTTP request pipeline.
 
-app.MapControllers();
+        app.UseHttpsRedirection();
 
-app.Run();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
+}
