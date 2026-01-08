@@ -18,20 +18,22 @@ internal class Program
 
         builder.Services.AddSwaggerGen();
 
-        var app = builder.Build();
-
+        // Add CORS before building the app
         builder.Services.AddCors(options =>
         {
-             options.AddPolicy("AllowAll",
-             builder =>
-             {
-                 builder.WithOrigins("http://localhost:4200")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-             });
+            options.AddPolicy("AllowAll",
+            policy =>
+            {
+                policy.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials();
+            });
         });
 
-        app.UseCors("AllowAngular");
+        var app = builder.Build();
+
+        app.UseCors("AllowAll");
 
         // Configure the HTTP request pipeline.
 

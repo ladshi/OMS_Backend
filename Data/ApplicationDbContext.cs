@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OMS_Backend.Entities;
 
 namespace OMS_Backend.Data
@@ -10,5 +10,6 @@ namespace OMS_Backend.Data
         {
         }
 
+        public DbSet<Customer> Customers { get; set; } = null!;
     }
 }
