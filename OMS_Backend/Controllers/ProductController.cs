@@ -59,7 +59,7 @@ namespace OMS_Backend.Controllers
                 existingProduct.Quantity += product.Quantity;
                 existingProduct.UpdatedAt = DateTime.Now;
                 
-                // Update product status if needed (e.g., if quantity was 0 and now has stock)
+                // Update product status
                 if (existingProduct.Quantity > 0 && existingProduct.ProductStatus == ProductStatus.OutOfStock)
                 {
                     existingProduct.ProductStatus = ProductStatus.Available;
@@ -108,7 +108,7 @@ namespace OMS_Backend.Controllers
             return Ok(existingProduct);
         }
 
-        // DELETE: api/Product/5 (Soft Delete)
+        // DELETE: api/Product/id
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
