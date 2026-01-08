@@ -1,17 +1,52 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using OMS_Backend.Data;
 
-// Add services to the container.
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+        // Add services to the container.
 
-var app = builder.Build();
+        builder.Services.AddControllers();
 
-// Configure the HTTP request pipeline.
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-app.UseHttpsRedirection();
+        builder.Services.AddEndpointsApiExplorer();
 
-app.UseAuthorization();
+        builder.Services.AddSwaggerGen();
 
-app.MapControllers();
+        var app = builder.Build();
 
-app.Run();
+        builder.Services.AddCors(options =>
+        {
+             options.AddPolicy("AllowAll",
+             builder =>
+             {
+                 builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+             });
+        });
+
+        app.UseCors("AllowAngular");
+
+        // Configure the HTTP request pipeline.
+
+        app.UseHttpsRedirection();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
+}
