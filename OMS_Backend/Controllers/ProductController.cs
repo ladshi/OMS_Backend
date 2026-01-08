@@ -8,16 +8,19 @@ namespace OMS_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : BaseApiController<Product>
+    public class ProductController : ControllerBase
     {
-        public ProductController(ApplicationDbContext context) : base(context)
+        private readonly ApplicationDbContext _context;
+
+        public ProductController(ApplicationDbContext context)
         {
+            _context = context;
         }
 
         // GET: api/Product
-        // Override to return only non-deleted products
+        // Returns only non-deleted products
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<Product>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
             var products = await _context.Product
                 .Where(p => !p.IsDeleted)
@@ -28,7 +31,7 @@ namespace OMS_Backend.Controllers
 
         // GET: api/Product/id
         [HttpGet("{id}")]
-        public override async Task<ActionResult<Product>> GetById(int id)
+        public async Task<ActionResult<Product>> GetById(int id)
         {
             var product = await _context.Product
                 .FirstOrDefaultAsync(p => p.ProductId == id && !p.IsDeleted);
@@ -41,7 +44,7 @@ namespace OMS_Backend.Controllers
 
         // POST: api/Product
         [HttpPost]
-        public override async Task<ActionResult<Product>> Create(Product product)
+        public async Task<ActionResult<Product>> Create(Product product)
         {
             // Check if a product with the same name and price already exists
             var existingProduct = await _context.Product
@@ -80,7 +83,7 @@ namespace OMS_Backend.Controllers
 
         // PUT: api/Product/id
         [HttpPut("{id}")]
-        public override async Task<IActionResult> Update(int id, Product product)
+        public async Task<IActionResult> Update(int id, Product product)
         {
             if (id != product.ProductId)
                 return BadRequest("Product ID mismatch");
@@ -107,7 +110,7 @@ namespace OMS_Backend.Controllers
 
         // DELETE: api/Product/5 (Soft Delete)
         [HttpDelete("{id}")]
-        public override async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Product.FindAsync(id);
 

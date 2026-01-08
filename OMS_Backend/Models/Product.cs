@@ -11,9 +11,9 @@ namespace OMS_Backend.Entities
 
         [Required]
         [MaxLength(150)]
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
