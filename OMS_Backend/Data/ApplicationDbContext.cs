@@ -10,5 +10,6 @@ namespace OMS_Backend.Data
         {
         }
 
+        public DbSet<Product> Product { get; set; }
     }
 }
