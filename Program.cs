@@ -55,15 +55,18 @@ builder.Services.AddAuthorization();
 // Add Services
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-// builder.Services.AddScoped<IStripeService, StripeService>(); // Removed Stripe
+
+// Add Swagger for API documentation
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // app.UseSwagger(); // Removed Swagger
-    // app.UseSwaggerUI(); // Removed SwaggerUI
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
