@@ -14,16 +14,13 @@ public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly IJwtService _jwtService;
-    private readonly IEmailService _emailService;
 
     public AuthController(
         ApplicationDbContext context,
-        IJwtService jwtService,
-        IEmailService emailService)
+        IJwtService jwtService)
     {
         _context = context;
         _jwtService = jwtService;
-        _emailService = emailService;
     }
 
     [HttpPost("login")]
@@ -77,9 +74,7 @@ public class AuthController : ControllerBase
         _context.PasswordResetTokens.Add(resetToken);
         await _context.SaveChangesAsync();
 
-        // await _emailService.SendPasswordResetLinkAsync(user.Email, token);
-
-        return Ok(new { message = "Password reset link sent to your email" });
+        return Ok(new { message = "Password reset token has been generated. Please use this token to reset your password." });
     }
 
     [HttpPost("reset-password")]

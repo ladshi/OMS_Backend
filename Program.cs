@@ -15,10 +15,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowCredentials()
+              .SetPreflightMaxAge(TimeSpan.FromSeconds(86400));
     });
 });
 
@@ -54,7 +55,6 @@ builder.Services.AddAuthorization();
 
 // Add Services
 builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Add Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
@@ -69,9 +69,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+// CORS must be placed before UseAuthentication and UseAuthorization
 app.UseCors("AllowAngularApp");
+
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
