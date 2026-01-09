@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace OMS_Backend.Entities
+namespace OMS_Backend.Models
 {
     public abstract class BaseEntity
     {

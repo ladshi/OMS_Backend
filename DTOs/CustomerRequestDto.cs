@@ -1,4 +1,4 @@
-﻿namespace OMS_Backend.DTO
+namespace OMS_Backend.DTOs
 {
     public record CustomerRequest(
          string CustomerCode,

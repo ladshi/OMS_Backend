@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using OMS_Backend.Entities;
+using OMS_Backend.Models;
 
 namespace OMS_Backend.Data;
 

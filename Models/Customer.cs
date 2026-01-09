@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OMS_Backend.Entities
+namespace OMS_Backend.Models
 {
     public class Customer : BaseEntity
     {

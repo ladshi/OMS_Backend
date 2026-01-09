@@ -2,7 +2,7 @@ using OMS_Backend.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OMS_Backend.Entities
+namespace OMS_Backend.Models
 {
     public class Product
     {

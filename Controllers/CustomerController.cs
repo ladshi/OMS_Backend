@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OMS_Backend.Data;
-using OMS_Backend.DTO;
-using OMS_Backend.Entities;
+using OMS_Backend.DTOs;
+using OMS_Backend.Models;
 
 namespace OMS_Backend.Controllers
 {
