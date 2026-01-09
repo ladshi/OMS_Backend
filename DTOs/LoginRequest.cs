@@ -1,4 +1,4 @@
-﻿namespace OMS_Backend.DTOs;
+namespace OMS_Backend.DTOs;
 
 public class LoginRequest
 {

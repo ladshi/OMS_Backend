@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OMS_Backend.Entities;
+using Microsoft.EntityFrameworkCore;
 using OMS_Backend.Models;
 
 namespace OMS_Backend.Data;
@@ -11,8 +10,9 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<Product> Product { get; set; }
     public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+    public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<Product> Product { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

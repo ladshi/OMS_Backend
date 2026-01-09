@@ -1,4 +1,4 @@
-﻿namespace OMS_Backend.Models;
+namespace OMS_Backend.Models;
 
 public class User
 {

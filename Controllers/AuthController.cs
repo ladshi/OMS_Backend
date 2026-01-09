@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OMS_Backend.Data;
 using OMS_Backend.DTOs;
@@ -14,20 +14,17 @@ public class AuthController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly IJwtService _jwtService;
-    private readonly IEmailService _emailService;
 
     public AuthController(
         ApplicationDbContext context,
-        IJwtService jwtService,
-        IEmailService emailService)
+        IJwtService jwtService)
     {
         _context = context;
         _jwtService = jwtService;
-        _emailService = emailService;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] DTOs.LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -55,7 +52,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword([FromBody] DTOs.ForgotPasswordRequest request)
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -77,13 +74,11 @@ public class AuthController : ControllerBase
         _context.PasswordResetTokens.Add(resetToken);
         await _context.SaveChangesAsync();
 
-        // await _emailService.SendPasswordResetLinkAsync(user.Email, token);
-
-        return Ok(new { message = "Password reset link sent to your email" });
+        return Ok(new { message = "Password reset token has been generated. Please use this token to reset your password." });
     }
 
     [HttpPost("reset-password")]
-    public async Task<IActionResult> ResetPassword([FromBody] DTOs.ResetPasswordRequest request)
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
         var resetToken = await _context.PasswordResetTokens
             .Include(prt => prt.User)
@@ -105,7 +100,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("change-password")]
     [Microsoft.AspNetCore.Authorization.Authorize]
-    public async Task<IActionResult> ChangePassword([FromBody] DTOs.ChangePasswordRequest request)
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
         var user = await _context.Users.FindAsync(userId);

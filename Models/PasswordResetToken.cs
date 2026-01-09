@@ -1,5 +1,3 @@
-﻿using OMS_Backend.Entities;
-
 namespace OMS_Backend.Models;
 
 public class PasswordResetToken
